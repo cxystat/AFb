@@ -5,14 +5,16 @@
 #' for a methylated CpG site.
 #' @param pos A vector of methylated site locations (in base pairs). Elements
 #' should be of the same order as the columns of M.
-#' @param basis Basis functions used, "bs" for B-spline, "fourier" for Fourier.
-#' @param ... Optional arguments for constructing basis functions.
+#' @param nbasis The number of B-spline basis functions (defult is cubic
+#' splines).
+#' @param ... Optional arguments for \code{create.bspline.basis} to
+#' construct basis functions.
 #'
 #' @return A matrix of basis function values. A matrix with dimensions n by Kb,
 #' where Kb is the number of basis functions.
 #' @export
 #'
-#' @seealso \code{\link[splines]{bs}}, \code{\link[fda]{fourier}}
+#' @seealso \code{\link[fda]{create.bspline.basis}},
 #'
 #' @examples
 #' M <- ar_dense$methyl
@@ -20,14 +22,8 @@
 #' l <- length(pos)
 #'
 #' ## B-spline basis functions
-#' knots <-seq(1, pos[l], length.out = 50)[-c(1, 50)]
-#' X1 <- basisMat(M, pos, basis = "bs", degree = 2, knots = knots)
-#'
-#' ## Fourier basis functions
-#' # if nbasis is an even number, function fourier takes nbasis = nbasis + 1
-#' X2 <- basisMat(M, pos, basis = "fourier", nbasis = 20)
-#'
-basisMat <- function(M, pos, basis = c("bs", "fourier"), ...) {
+#' X1 <- basisMat(M, pos, nbasis = 50, norder = 3)
+basisMat <- function(M, pos, nbasis, ...) {
 
   dl <- length(dim(M))
   if (dl != 2)
@@ -41,15 +37,21 @@ basisMat <- function(M, pos, basis = c("bs", "fourier"), ...) {
     M <- M[,o]
     pos <- sort(pos)
   }
-  K <- length(pos)
-  dpos <- c(pos[2]-pos[1], diff(pos, lag = 2)/2, pos[K]-pos[K-1])
 
-  basis <- match.arg(basis)
-  FUN <- match.fun(basis)
-  bfMat <- FUN(pos, ...)
+  c <- min(pos)
+  s <- diff(range(pos))
+  pos.std <- as.vector(scale(pos, center = c, scale = s))
+
+  K <- length(pos)
+  dpos <- c(pos.std[2]-pos.std[1], diff(pos.std, lag = 2)/2,
+            pos.std[K]-pos.std[K-1])
+
+  basis <- create.bspline.basis(nbasis = nbasis, ...)
+  bfMat <- eval.basis(pos.std, basis)
 
   X <- M %*% (bfMat * dpos)
 
   return(X)
 }
+
 
