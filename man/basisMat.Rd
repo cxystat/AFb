@@ -4,7 +4,7 @@
 \alias{basisMat}
 \title{Methylation Levels to Basis Function Values}
 \usage{
-basisMat(M, pos, basis = c("bs", "fourier"), ...)
+basisMat(M, pos, nbasis, ...)
 }
 \arguments{
 \item{M}{A matrix of methylation levels. A matrix with dimensions n by K
@@ -14,9 +14,11 @@ for a methylated CpG site.}
 \item{pos}{A vector of methylated site locations (in base pairs). Elements
 should be of the same order as the columns of M.}
 
-\item{basis}{Basis functions used, "bs" for B-spline, "fourier" for Fourier.}
+\item{nbasis}{The number of B-spline basis functions (defult is cubic
+splines).}
 
-\item{...}{Optional arguments for constructing basis functions.}
+\item{...}{Optional arguments for \code{create.bspline.basis} to
+construct basis functions.}
 }
 \value{
 A matrix of basis function values. A matrix with dimensions n by Kb,
@@ -31,14 +33,8 @@ pos <- ar_dense$pos
 l <- length(pos)
 
 ## B-spline basis functions
-knots <-seq(1, pos[l], length.out = 50)[-c(1, 50)]
-X1 <- basisMat(M, pos, basis = "bs", degree = 2, knots = knots)
-
-## Fourier basis functions
-# if nbasis is an even number, function fourier takes nbasis = nbasis + 1
-X2 <- basisMat(M, pos, basis = "fourier", nbasis = 20)
-
+X1 <- basisMat(M, pos, nbasis = 50, norder = 3)
 }
 \seealso{
-\code{\link[splines]{bs}}, \code{\link[fda]{fourier}}
+\code{\link[fda]{create.bspline.basis}},
 }

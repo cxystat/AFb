@@ -4,7 +4,8 @@
 \name{fourier_sparse}
 \alias{fourier_sparse}
 \title{Simulated Methylation Data with Fourier Effects in Sparse Scenario}
-\format{A list object.
+\format{
+A list object.
 \describe{
   \item{trait}{A vector of length 1,000 containing disease labels
   (523 cases and 477 controls).}
@@ -12,7 +13,8 @@
   row represents the methylaiton profile for one subject. Each
   element of the matrix denotes BS-seq methylation level at a CpG site.}
   \item{pos}{Locations for CpG sites (in base pairs).}
-}}
+}
+}
 \usage{
 data(fourier_sparse)
 }

@@ -4,7 +4,8 @@
 \name{ar_dense}
 \alias{ar_dense}
 \title{Simulated Methylation Data with Autoregressive Effects in Dense Scenario}
-\format{A list object.
+\format{
+A list object.
 \describe{
   \item{trait}{A vector of length 1,000 containing disease labels
   (510 cases and 490 controls).}
@@ -12,7 +13,8 @@
   row represents the methylaiton profile for one subject. Each
   element of the matrix denotes BS-seq methylation level at a CpG site.}
   \item{pos}{Locations for CpG sites (in base pairs).}
-}}
+}
+}
 \usage{
 data(ar_dense)
 }

@@ -4,9 +4,20 @@
 \alias{AFb}
 \title{Smoothed Adaptive Fisher (AFb) Test for Trait-Methylation Set Association}
 \usage{
-AFb(Y, M, pos, basis = c("bs", "fourier"), binary = FALSE,
-  cov = NULL, adapt_perm = FALSE, cutoff = 2.5e-06, nperm = 1000,
-  seed = NULL, n0 = 1, ...)
+AFb(
+  Y,
+  M,
+  pos,
+  basis = c("bs", "fourier"),
+  binary = FALSE,
+  cov = NULL,
+  adapt_perm = FALSE,
+  cutoff = 2.5e-06,
+  nperm = 1000,
+  seed = NULL,
+  n0 = 1,
+  ...
+)
 }
 \arguments{
 \item{Y}{Y Phenotype data. It can be a continuous trait or a binary trait.
