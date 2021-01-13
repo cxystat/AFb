@@ -8,7 +8,7 @@ AFb(
   Y,
   M,
   pos,
-  basis = c("bs", "fourier"),
+  nbasis,
   binary = FALSE,
   cov = NULL,
   adapt_perm = FALSE,
@@ -30,7 +30,7 @@ for a methylated CpG site.}
 \item{pos}{A vector of methylated site locations (in base pairs). Elements
 should be of the same order as the columns of M.}
 
-\item{basis}{Basis functions used, "bs" for B-spline, "fourier" for Fourier.}
+\item{nbasis}{The number of B-spline basis functions.}
 
 \item{binary}{Indicator of whether Y is binary.}
 
@@ -51,7 +51,7 @@ for "step-up" algorithm. Default is 1,000.}
 
 \item{n0}{Tuning parameter. Discard the first n0-1 P-values of each column.}
 
-\item{...}{Optional arguments for constructing basis functions.}
+\item{...}{Optional arguments \code{create.bspline.basis}.}
 }
 \value{
 An object of "AFb" class.
@@ -61,7 +61,6 @@ An object of "AFb" class.
  \item{loci_combined}{Sites which are combined into the test
   statistic. The index of included sites are returned in the ascending
   order of their P-values.}
-  \item{basis}{Basis functions used.}
   \item{method}{Method used.}
 }
 }
@@ -72,14 +71,8 @@ Smoothed Adaptive Fisher (AFb) Test for Trait-Methylation Set Association
 Y <- bs_dense$trait
 methyl <- bs_dense$methyl
 pos <- bs_dense$pos
-test <- AFb(Y, methyl, pos, binary = TRUE, adapt_perm = TRUE)
+test <- AFb(Y, methyl, pos, nbasis = 50, binary = TRUE, adapt_perm = TRUE)
 summary(test)
-
-Y <- fourier_sparse$trait
-methyl <- fourier_sparse$methyl
-pos <- fourier_sparse$pos
-test <- AFb(Y, methyl, pos, basis = "fourier", binary = TRUE, nbasis = 20)
-print(test)
 
 }
 \seealso{

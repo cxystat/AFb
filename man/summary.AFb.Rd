@@ -4,10 +4,12 @@
 \alias{summary.AFb}
 \title{Summary Function for Objects of "AFb" Class}
 \usage{
-\method{summary}{AFb}(x, ...)
+\method{summary}{AFb}(object, ...)
 }
 \arguments{
-\item{x}{An object of "AFb" class.}
+\item{object}{An object of "AFb" class.}
+
+\item{...}{Optional arguments for \code{summary}.}
 }
 \value{
 Method used; P-value; basis functions used;
@@ -15,7 +17,4 @@ CpG sites combined into the test statistic.
 }
 \description{
 Summary Function for Objects of "AFb" Class
-}
-\examples{
-
 }

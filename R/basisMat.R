@@ -7,14 +7,15 @@
 #' should be of the same order as the columns of M.
 #' @param nbasis The number of B-spline basis functions (defult is cubic
 #' splines).
-#' @param ... Optional arguments for \code{create.bspline.basis} to
-#' construct basis functions.
+#' @param ... Optional arguments for \code{create.bspline.basis}.
 #'
 #' @return A matrix of basis function values. A matrix with dimensions n by Kb,
 #' where Kb is the number of basis functions.
 #' @export
 #'
-#' @seealso \code{\link[fda]{create.bspline.basis}},
+#' @seealso \code{\link[fda]{create.bspline.basis}}
+#'
+#' @import fda
 #'
 #' @examples
 #' M <- ar_dense$methyl
@@ -22,7 +23,7 @@
 #' l <- length(pos)
 #'
 #' ## B-spline basis functions
-#' X1 <- basisMat(M, pos, nbasis = 50, norder = 3)
+#' X <- basisMat(M, pos, nbasis = 50, norder = 3)
 basisMat <- function(M, pos, nbasis, ...) {
 
   dl <- length(dim(M))

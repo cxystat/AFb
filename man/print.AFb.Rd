@@ -8,6 +8,8 @@
 }
 \arguments{
 \item{x}{An object of "AFb" class.}
+
+\item{...}{Optional arguments for \code{print}.}
 }
 \value{
 Method used; P-value; basis functions used;
@@ -15,7 +17,4 @@ CpG sites combined into the test statistic.
 }
 \description{
 Print Function for Objects of "AFb" Class
-}
-\examples{
-
 }

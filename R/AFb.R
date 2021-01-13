@@ -7,7 +7,7 @@
 #' for a methylated CpG site.
 #' @param pos A vector of methylated site locations (in base pairs). Elements
 #' should be of the same order as the columns of M.
-#' @param basis Basis functions used, "bs" for B-spline, "fourier" for Fourier.
+#' @param nbasis The number of B-spline basis functions.
 #' @param binary Indicator of whether Y is binary.
 #' @param cov Covariates. A matrix with dimensions n (number of subjects)
 #' by J (number of covariates).
@@ -20,7 +20,7 @@
 #' for "step-up" algorithm. Default is 1,000.
 #' @param seed Specify random seed for permutations.
 #' @param n0 Tuning parameter. Discard the first n0-1 P-values of each column.
-#' @param ... Optional arguments for constructing basis functions.
+#' @param ... Optional arguments \code{create.bspline.basis}.
 #'
 #' @return An object of "AFb" class.
 #' \describe{
@@ -29,7 +29,6 @@
 #'  \item{loci_combined}{Sites which are combined into the test
 #'   statistic. The index of included sites are returned in the ascending
 #'   order of their P-values.}
-#'   \item{basis}{Basis functions used.}
 #'   \item{method}{Method used.}
 #' }
 #'
@@ -38,26 +37,22 @@
 #' @seealso \code{\link[splines]{bs}}, \code{\link[fda]{fourier}},
 #' \code{\link{set.seed}}
 #'
+#' @import wAF
+#'
 #' @examples
 #' Y <- bs_dense$trait
 #' methyl <- bs_dense$methyl
 #' pos <- bs_dense$pos
-#' test <- AFb(Y, methyl, pos, binary = TRUE, adapt_perm = TRUE)
+#' test <- AFb(Y, methyl, pos, nbasis = 50, binary = TRUE, adapt_perm = TRUE)
 #' summary(test)
 #'
-#' Y <- fourier_sparse$trait
-#' methyl <- fourier_sparse$methyl
-#' pos <- fourier_sparse$pos
-#' test <- AFb(Y, methyl, pos, basis = "fourier", binary = TRUE, nbasis = 20)
-#' print(test)
-#'
-AFb <- function(Y, M, pos, basis = c("bs", "fourier"),
+AFb <- function(Y, M, pos, nbasis,
                 binary = FALSE, cov = NULL,
-                adapt_perm = FALSE, cutoff = 2.5e-6, nperm = 1000, seed = NULL,
+                adapt_perm = FALSE, cutoff = 2.5e-6,
+                nperm = 1000, seed = NULL,
                 n0 = 1, ...) {
 
-  basis <- match.arg(basis)
-  X <- basisMat(M, pos, basis, ...)
+  X <- basisMat(M, pos, nbasis, ...)
 
   test <- wAF(Y, X, binary = binary, cov = cov, w = "flat",
               adapt_perm = adapt_perm, cutoff = cutoff, nperm = nperm,
@@ -65,7 +60,7 @@ AFb <- function(Y, M, pos, basis = c("bs", "fourier"),
 
   result <- list(pv = test$pv, stat = test$stat,
                  loci_combined = test$loci_combined,
-                 basis = basis[1], method = "AFb")
+                 method = "AFb")
   class(result)<-"AFb"
 
   return(result)

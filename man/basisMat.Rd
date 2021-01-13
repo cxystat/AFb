@@ -17,8 +17,7 @@ should be of the same order as the columns of M.}
 \item{nbasis}{The number of B-spline basis functions (defult is cubic
 splines).}
 
-\item{...}{Optional arguments for \code{create.bspline.basis} to
-construct basis functions.}
+\item{...}{Optional arguments for \code{create.bspline.basis}.}
 }
 \value{
 A matrix of basis function values. A matrix with dimensions n by Kb,
@@ -33,8 +32,8 @@ pos <- ar_dense$pos
 l <- length(pos)
 
 ## B-spline basis functions
-X1 <- basisMat(M, pos, nbasis = 50, norder = 3)
+X <- basisMat(M, pos, nbasis = 50, norder = 3)
 }
 \seealso{
-\code{\link[fda]{create.bspline.basis}},
+\code{\link[fda]{create.bspline.basis}}
 }

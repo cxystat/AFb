@@ -12,7 +12,7 @@
 ## @param weight Weight of baseline methylation levels. Default is 0.9.
 ## @param p.CG A vector of length three containing CpG site proportions on CpG
 ## island, shore and desert.
-## @param knots A vector of knots for B-spline basis funcitons. Used only when
+## @param knots A vector of knots for B-spline basis functions. Used only when
 ## argument beta = "bs".
 ## @param n.basis Number of Fourier basis functions. Used only when argument
 ## beta = "fourier".
@@ -38,48 +38,48 @@
 ##
 ## bs_dense <- methyl_sim(n, t, K, p.sig, delta,
 ##                        beta = "bs", seed = 7)
-methyl_sim <- function(n, tot, il, prop, strg,
-                       beta = c("bs", "fourier", "ar"),
-                       weight = 0.9,
-                       p.CG = c(0.09443, 0.019, 0.012462),
-                       knots = NULL,
-                       n.basis = NULL,
-                       trans.prob = c(0.8, 0.95),
-                       seed = NULL, ...) {
-  source("R/methyl_sim_components.R")
-
-  temp <- CG(tot, il, p.CG, seed = seed)
-  pos <- temp$pos
-
-  designMat <- methylprop(n, tot, pos, weight = weight)
-
-  beta <- match.arg(beta)
-  FUN <- match.fun(paste0("beta_", beta))
-  if (beta == "ar") {
-    coefs <- FUN(tot, pos, trans.prob)
-  } else {
-    if (beta == "fourier") {
-      if (is.null(n.basis)) {
-        coefs <- FUN(pos, prop, strg, ...)
-      } else {
-        coefs <- FUN(pos, prop, strg, n.basis, ...)
-      }
-    } else {
-      coefs <- FUN(tot, pos, prop, strg, knots = NULL, ...)
-    }
-  }
-
-  methyl.std <- scale(designMat$methyl, scale = FALSE)
-  n.cg <- length(pos)
-  hd <- c(pos[2] - pos[1] ,diff(pos, lag = 2)/2,
-          pos[n.cg]-pos[n.cg-1])
-
-  w.coef <- coefs * hd
-  d.prob <- inv.logit(methyl.std %*% w.coef)
-  Y <- rbinom(n, 1, d.prob)
-
-  result <- list(trait = Y, methyl = designMat$methylobs, pos = pos)
-
-  return(result)
-
-}
+# methyl_sim <- function(n, tot, il, prop, strg,
+#                        beta = c("bs", "fourier", "ar"),
+#                        weight = 0.9,
+#                        p.CG = c(0.09443, 0.019, 0.012462),
+#                        knots = NULL,
+#                        n.basis = NULL,
+#                        trans.prob = c(0.8, 0.95),
+#                        seed = NULL, ...) {
+#   source("R/methyl_sim_components.R")
+#
+#   temp <- CG(tot, il, p.CG, seed = seed)
+#   pos <- temp$pos
+#
+#   designMat <- methylprop(n, tot, pos, weight = weight)
+#
+#   beta <- match.arg(beta)
+#   FUN <- match.fun(paste0("beta_", beta))
+#   if (beta == "ar") {
+#     coefs <- FUN(tot, pos, trans.prob)
+#   } else {
+#     if (beta == "fourier") {
+#       if (is.null(n.basis)) {
+#         coefs <- FUN(pos, prop, strg, ...)
+#       } else {
+#         coefs <- FUN(pos, prop, strg, n.basis, ...)
+#       }
+#     } else {
+#       coefs <- FUN(tot, pos, prop, strg, knots = NULL, ...)
+#     }
+#   }
+#
+#   methyl.std <- scale(designMat$methyl, scale = FALSE)
+#   n.cg <- length(pos)
+#   hd <- c(pos[2] - pos[1] ,diff(pos, lag = 2)/2,
+#           pos[n.cg]-pos[n.cg-1])
+#
+#   w.coef <- coefs * hd
+#   d.prob <- inv.logit(methyl.std %*% w.coef)
+#   Y <- rbinom(n, 1, d.prob)
+#
+#   result <- list(trait = Y, methyl = designMat$methylobs, pos = pos)
+#
+#   return(result)
+#
+# }

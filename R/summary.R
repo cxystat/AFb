@@ -1,39 +1,36 @@
 #' Summary Function for Objects of "AFb" Class
 #'
-#' @param x An object of "AFb" class.
+#' @param object An object of "AFb" class.
+#' @param ... Optional arguments for \code{summary}.
 #'
 #' @return Method used; P-value; basis functions used;
 #' CpG sites combined into the test statistic.
 #'
 #' @export
 #'
-#' @examples
+#' @usage \method{summary}{AFb}(object, ...)
 #'
-summary.AFb <- function(x, ...){
+summary.AFb <- function(object, ...){
   cat("Method:\n")
-  cat(paste(x$method, "\n"))
+  cat(paste(object$method, "\n"))
   cat("\n")
   cat("P-value:\n")
-  print(x$pv)
-  cat("\n")
-  cat("Basis: \n")
-  cat(paste(x$basis, "\n"))
+  print(object$pv)
   cat("\n")
   cat("CpG sites combined into test statistic:\n")
-  print(x$loci_combined)
+  print(object$loci_combined)
 }
 
 
 #' Print Function for Objects of "AFb" Class
 #'
 #' @param x An object of "AFb" class.
+#' @param ... Optional arguments for \code{print}.
 #'
 #' @return Method used; P-value; basis functions used;
 #' CpG sites combined into the test statistic.
 #'
 #' @export
-#'
-#' @examples
 #'
 print.AFb <- function(x, ...){
   cat("Method:\n")
@@ -41,9 +38,6 @@ print.AFb <- function(x, ...){
   cat("\n")
   cat("P-value:\n")
   print(x$pv)
-  cat("\n")
-  cat("Basis: \n")
-  cat(paste(x$basis, "\n"))
   cat("\n")
   cat("CpG sites combined into test statistic:\n")
   print(x$loci_combined)
