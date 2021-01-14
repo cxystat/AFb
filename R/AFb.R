@@ -60,6 +60,7 @@ AFb <- function(Y, M, pos, nbasis,
 
   result <- list(pv = test$pv, stat = test$stat,
                  loci_combined = test$loci_combined,
+                 stat_all = test$stat_all, pv_all = test$pv_all,
                  method = "AFb")
   class(result)<-"AFb"
 
