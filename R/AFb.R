@@ -8,6 +8,8 @@
 #' @param pos A vector of methylated site locations (in base pairs). Elements
 #' should be of the same order as the columns of M.
 #' @param nbasis The number of B-spline basis functions.
+#' @param start Start location of the region.
+#' @param end End location of the region.
 #' @param binary Indicator of whether Y is binary.
 #' @param cov Covariates. A matrix with dimensions n (number of subjects)
 #' by J (number of covariates).
@@ -43,16 +45,17 @@
 #' Y <- bs_dense$trait
 #' methyl <- bs_dense$methyl
 #' pos <- bs_dense$pos
-#' test <- AFb(Y, methyl, pos, nbasis = 50, binary = TRUE, adapt_perm = TRUE)
+#' test <- AFb(Y, methyl, pos, start = min(pos), end = max(pos),
+#'             nbasis = 50, binary = TRUE, adapt_perm = TRUE)
 #' summary(test)
 #'
-AFb <- function(Y, M, pos, nbasis,
+AFb <- function(Y, M, pos, start, end, nbasis,
                 binary = FALSE, cov = NULL,
                 adapt_perm = FALSE, cutoff = 2.5e-6,
                 nperm = 1000, seed = NULL,
                 n0 = 1, ...) {
 
-  X <- basisMat(M, pos, nbasis, ...)
+  X <- basisMat(M, pos, start, end, nbasis, ...)
 
   test <- wAF(Y, X, binary = binary, cov = cov, w = "flat",
               adapt_perm = adapt_perm, cutoff = cutoff, nperm = nperm,
