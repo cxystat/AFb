@@ -25,24 +25,26 @@
 #' l <- length(pos)
 #'
 #' ## B-spline basis functions
-#' X <- basisMat(M, pos, nbasis = 50, start = min(pos),
-#'               end = max(pos), norder = 3)
-basisMat <- function (M, pos, start, end, nbasis, ...)
-{
+#' X <- basisMat(M, pos, nbasis = 50, norder = 3)
+basisMat <- function (M, pos, nbasis, start = NULL, end = NULL, ...) {
   dl <- length(dim(M))
+  K <- length(pos)
   if (dl != 2)
-    stop("M must be a matrix")
+    stop("M must be a matrix.\n")
+  if (K == 1 & is.null(start) & is.null(end))
+    stop("single site, cannot calculate basis functions.\n")
   if (is.null(pos))
     stop("no positions given")
   if (is.unsorted(pos)) {
     cat("pos is unsorted, sort into ascending order. \n")
     o <- order(pos)
     M <- M[, o]
-    pos <- sort(pos)
+    pos <- pos[o]
   }
-  K <- length(pos)
-  dpos <- c(pos[2] - pos[1], diff(pos, lag = 2)/2,
-            pos[K] - pos[K - 1])
+  if(is.null(start)) start <- 2 * pos[1] - pos[2]
+  if(is.null(end)) end <- 2 * pos[K] - pos[K-1]
+  pos.ext <- c(start, pos, end)
+  dpos <- diff(pos.ext, lag = 2)/2
   basis <- create.bspline.basis(rangeval = c(start, end),
                                 nbasis = nbasis, ...)
   bfMat <- eval.basis(pos, basis)

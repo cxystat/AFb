@@ -45,17 +45,17 @@
 #' Y <- bs_dense$trait
 #' methyl <- bs_dense$methyl
 #' pos <- bs_dense$pos
-#' test <- AFb(Y, methyl, pos, start = min(pos), end = max(pos),
-#'             nbasis = 50, binary = TRUE, adapt_perm = TRUE)
+#' test <- AFb(Y, methyl, pos, nbasis = 50,
+#'             binary = TRUE, adapt_perm = TRUE)
 #' summary(test)
 #'
-AFb <- function(Y, M, pos, start, end, nbasis,
+AFb <- function(Y, M, pos, nbasis, start = NULL, end = NULL,
                 binary = FALSE, cov = NULL,
                 adapt_perm = FALSE, cutoff = 2.5e-6,
                 nperm = 1000, seed = NULL,
                 n0 = 1, ...) {
 
-  X <- basisMat(M, pos, start, end, nbasis, ...)
+  X <- basisMat(M, pos, nbasis = nbasis, start = start, end = end, ...)
 
   test <- wAF(Y, X, binary = binary, cov = cov, w = "flat",
               adapt_perm = adapt_perm, cutoff = cutoff, nperm = nperm,

@@ -8,9 +8,9 @@ AFb(
   Y,
   M,
   pos,
-  start,
-  end,
   nbasis,
+  start = NULL,
+  end = NULL,
   binary = FALSE,
   cov = NULL,
   adapt_perm = FALSE,
@@ -32,11 +32,11 @@ for a methylated CpG site.}
 \item{pos}{A vector of methylated site locations (in base pairs). Elements
 should be of the same order as the columns of M.}
 
+\item{nbasis}{The number of B-spline basis functions.}
+
 \item{start}{Start location of the region.}
 
 \item{end}{End location of the region.}
-
-\item{nbasis}{The number of B-spline basis functions.}
 
 \item{binary}{Indicator of whether Y is binary.}
 
@@ -77,8 +77,8 @@ Smoothed Adaptive Fisher (AFb) Test for Trait-Methylation Set Association
 Y <- bs_dense$trait
 methyl <- bs_dense$methyl
 pos <- bs_dense$pos
-test <- AFb(Y, methyl, pos, start = min(pos), end = max(pos),
-            nbasis = 50, binary = TRUE, adapt_perm = TRUE)
+test <- AFb(Y, methyl, pos, nbasis = 50,
+            binary = TRUE, adapt_perm = TRUE)
 summary(test)
 
 }

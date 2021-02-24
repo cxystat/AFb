@@ -4,7 +4,7 @@
 \alias{basisMat}
 \title{Methylation Levels to Basis Function Values}
 \usage{
-basisMat(M, pos, start, end, nbasis, ...)
+basisMat(M, pos, nbasis, start = NULL, end = NULL, ...)
 }
 \arguments{
 \item{M}{A matrix of methylation levels. A matrix with dimensions n by K
@@ -14,12 +14,12 @@ for a methylated CpG site.}
 \item{pos}{A vector of methylated site locations (in base pairs). Elements
 should be of the same order as the columns of M.}
 
+\item{nbasis}{The number of B-spline basis functions (default is cubic
+splines). Note that nbasis should not be smaller than norder (default is 4).}
+
 \item{start}{Start location of the region.}
 
 \item{end}{End location of the region.}
-
-\item{nbasis}{The number of B-spline basis functions (default is cubic
-splines). Note that nbasis should not be smaller than norder (default is 4).}
 
 \item{...}{Optional arguments for \code{create.bspline.basis}.}
 }
@@ -36,8 +36,7 @@ pos <- ar_dense$pos
 l <- length(pos)
 
 ## B-spline basis functions
-X <- basisMat(M, pos, nbasis = 50, start = min(pos),
-              end = max(pos), norder = 3)
+X <- basisMat(M, pos, nbasis = 50, norder = 3)
 }
 \seealso{
 \code{\link[fda]{create.bspline.basis}}
