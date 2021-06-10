@@ -5,7 +5,7 @@
 #' @param M A matrix of methylation levels. A matrix with dimensions n by K
 #' (n subjects, K methylation sites). Each row for a subject, and each column
 #' for a methylated CpG site.
-#' @param pos A vector of methylated site locations (in base pairs). Elements
+#' @param pos A vector of methylated site locations (in bp). Elements
 #' should be of the same order as the columns of M.
 #' @param nbasis The number of B-spline basis functions.
 #' @param start Start location of the region.
