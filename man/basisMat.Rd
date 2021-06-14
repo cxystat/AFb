@@ -7,15 +7,14 @@
 basisMat(M, pos, nbasis, start = NULL, end = NULL, ...)
 }
 \arguments{
-\item{M}{A matrix of methylation levels. A matrix with dimensions n by K
-(n subjects, K methylation sites). Each row for a subject, and each column
-for a methylated CpG site.}
+\item{M}{A matrix of methylation levels with dimensions \code{n} by \code{K}
+(\code{n} subjects, \code{K} CpG sites).}
 
-\item{pos}{A vector of methylated site locations (in base pairs). Elements
-should be of the same order as the columns of M.}
+\item{pos}{A vector of CpG locations (in base pairs). Elements
+should be of the same order as the columns of \code{M}.}
 
 \item{nbasis}{The number of B-spline basis functions (default is cubic
-splines). Note that nbasis should not be smaller than norder (default is 4).}
+splines). Note that \code{nbasis} should not be smaller than norder (default is 4).}
 
 \item{start}{Start location of the region.}
 
@@ -24,19 +23,18 @@ splines). Note that nbasis should not be smaller than norder (default is 4).}
 \item{...}{Optional arguments for \code{create.bspline.basis}.}
 }
 \value{
-A matrix of basis function values. A matrix with dimensions n by Kb,
-where Kb is the number of basis functions.
+A matrix of basis function values with dimensions \code{n} by \code{Kb},
+where \code{Kb} is the number of basis functions.
 }
 \description{
 Methylation Levels to Basis Function Values
 }
 \examples{
-M <- ar_dense$methyl
-pos <- ar_dense$pos
-l <- length(pos)
+Y <- bs_dense$trait
+methyl <- bs_dense$methyl
+pos <- bs_dense$pos
+X <- basisMat(methyl, pos, nbasis = 10)
 
-## B-spline basis functions
-X <- basisMat(M, pos, nbasis = 50, norder = 3)
 }
 \seealso{
 \code{\link[fda]{create.bspline.basis}}

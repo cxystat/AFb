@@ -7,10 +7,10 @@
 \format{
 A list object.
 \describe{
-  \item{trait}{A vector of length 1,000 containing disease labels
-  (510 cases and 490 controls).}
-  \item{methyl}{A 1,000 by 477 matrix containing methylation levels. Each
-  row represents the methylaiton profile for one subject. Each
+  \item{trait}{A vector of length 500 containing disease labels
+  (251 cases and 249 controls).}
+  \item{methyl}{A 500 by 81 matrix containing methylation levels. Each
+  row represents the methylation profile for one subject. Each
   element of the matrix denotes BS-seq methylation level at a CpG site.}
   \item{pos}{Locations for CpG sites (in base pairs).}
 }
@@ -19,7 +19,7 @@ A list object.
 data(ar_dense)
 }
 \description{
-A simulated dataset containing 1,000 subjects and 477 methylation sites.
+A simulated dataset containing 500 subjects and 81 methylation sites.
 Methylation effects are constructed by first-order autoregressive model.
 }
 \keyword{datasets}

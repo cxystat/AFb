@@ -1,5 +1,4 @@
-#' Adaptive Fisher Method with B-spline basis funcitons (AFb)
-#' for Trait-Methylation Set Association
+#' Adaptive Fisher Method for Testing Methylation Variation
 #'
 #' @param Y Phenotype data. It can be a continuous trait or a binary trait.
 #' A vector of length \code{n} (number of subjects).
@@ -15,6 +14,9 @@
 #' by \code{J} (number of covariates).
 #' @param nperm Number of permutations. Also the starting number of permutations
 #' for "step-up" algorithm. Default is \code{1,000}.
+#' @param bandwidth bandwidth The bandwidth for \code{ksmooth}. Default is \code{5509},
+#' 20 \% of the median gene length according to UCSC Genome build hg38.
+#' @param kernel kernel The kernel to be used for \code{ksmooth}
 #' @param adapt_perm Whether "step-up" algorithm is used for P-value
 #' calculation. If FALSE, function permutes \code{nperm} times and stops. If TRUE,
 #' \code{nperm} will be increased 10 times each round if P-value <= \code{5/nperm}.
@@ -22,52 +24,58 @@
 #' @param cutoff Cutoff for "step-up" algorithm.
 #' @param seed Specify the seed for permutations.
 #' @param n0 Tuning parameter. Discard the first \code{n0-1} P-values of each sample.
-#' @param ... Optional arguments for \code{create.bspline.basis}.
+#' @param ... Optional arguments \code{create.bspline.basis}.
 #'
-#' @return An object of "AFb" class.
+#' @return An object of "AFv" class.
 #' \describe{
-#'  \item{pv}{P-value of AFb test.}
-#'  \item{stat}{Test statistic of AFb test.}
+#'  \item{pv}{P-value of AFv test.}
+#'  \item{stat}{Test statistic of AFv test.}
 #'  \item{indexes}{Indexes of basis functions combined into the test
 #'   statistic. Indexes are sorted so that P-values are
 #'   in ascending order.}
-#'   \item{stat_all}{AFb statistics for all permuted samples.}
-#'   \item{pv_all}{P-values of AFb statistics for all permuted samples.}
+#'   \item{stat_all}{AFv statistics for all permuted samples.}
+#'   \item{pv_all}{P-values of AFv statistics for all permuted samples.}
 #'   \item{method}{Method used.}
 #' }
+#'
 #'
 #' @export
 #'
 #' @seealso \code{\link[fda]{create.bspline.basis}},
-#' \code{\link{set.seed}}
+#' \code{\link{set.seed}}, \code{\link[stats]{ksmooth}}
 #'
 #' @examples
 #' Y <- bs_dense$trait
 #' methyl <- bs_dense$methyl
 #' pos <- bs_dense$pos
-#' test <- AFb(Y, methyl, pos, nbasis = 10,
-#'             binary = TRUE, adapt_perm = TRUE)
+#' test <- AFv(Y, methyl, pos, nbasis =10, bandwidth = 500,
+#'             kernel = "box", binary = TRUE)
 #' summary(test)
 #'
-AFb <- function(Y, M, pos, nbasis, start = NULL, end = NULL,
-                binary = FALSE, cov = NULL, nperm = 1000,
+AFv <- function(Y, M, pos, nbasis, start = NULL, end = NULL,
+                binary = FALSE, cov = NULL,
+                nperm = 1000, bandwidth = 5509,
+                kernel = c("normal", "box"),
                 adapt_perm = FALSE, cutoff = 2.5e-6,
                 seed = NULL,
                 n0 = 1, ...) {
 
-  X <- basisMat(M, pos, nbasis = nbasis, start = start,
-                end = end, ...)
+  V <- dispMat(M, pos = pos, bandwidth = bandwidth,
+               kernel = kernel)
 
-  test <- AF(Y, X, binary = binary, cov = cov, nperm = nperm,
-             adapt_perm = adapt_perm, cutoff = cutoff,
-             n0 = n0, seed = seed)
+  test <- AFb(Y, V, pos = pos, nbasis = nbasis,
+              start = start, end = end,
+              binary = FALSE, cov = NULL, nperm = 1000,
+              adapt_perm = FALSE, cutoff = 2.5e-6,
+              seed = NULL, n0 = 1, ...)
 
   result <- list(pv = test$pv, stat = test$stat,
                  indexes = test$indexes,
                  stat_all = test$stat_all,
                  pv_all = test$pv_all,
-                 method = "AFb")
-  class(result)<-"AF"
+                 method = "AFv")
+  class(result) <- "AF"
 
   return(result)
+
 }

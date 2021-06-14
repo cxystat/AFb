@@ -1,6 +1,6 @@
-#' Summary Function for Objects of "AFb" Class
+#' Summary Function for Objects of "AF" Class
 #'
-#' @param object An object of "AFb" class.
+#' @param object An object of "AF" class.
 #' @param ... Optional arguments for \code{summary}.
 #'
 #' @return Method used; P-value; basis functions used;
@@ -8,9 +8,9 @@
 #'
 #' @export
 #'
-#' @usage \method{summary}{AFb}(object, ...)
+#' @usage \method{summary}{AF}(object, ...)
 #'
-summary.AFb <- function(object, ...){
+summary.AF <- function(object, ...){
   cat("Method:\n")
   cat(paste(object$method, "\n"))
   cat("\n")
@@ -22,9 +22,9 @@ summary.AFb <- function(object, ...){
 }
 
 
-#' Print Function for Objects of "AFb" Class
+#' Print Function for Objects of "AF" Class
 #'
-#' @param x An object of "AFb" class.
+#' @param x An object of "AF" class.
 #' @param ... Optional arguments for \code{print}.
 #'
 #' @return Method used; P-value; basis functions used;
@@ -32,7 +32,7 @@ summary.AFb <- function(object, ...){
 #'
 #' @export
 #'
-print.AFb <- function(x, ...){
+print.AF <- function(x, ...){
   cat("Method:\n")
   cat(paste(x$method, "\n"))
   cat("\n")
