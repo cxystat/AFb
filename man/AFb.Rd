@@ -82,7 +82,7 @@ methyl <- bs_dense$methyl
 pos <- bs_dense$pos
 test <- AFb(Y, methyl, pos, nbasis = 10,
             binary = TRUE, adapt_perm = TRUE)
-summary(test)
+
 
 }
 \seealso{

@@ -18,7 +18,7 @@ summary.AF <- function(object, ...){
   print(object$pv)
   cat("\n")
   cat("CpG sites combined into test statistic:\n")
-  print(object$loci_combined)
+  print(object$indexes)
 }
 
 
@@ -40,5 +40,5 @@ print.AF <- function(x, ...){
   print(x$pv)
   cat("\n")
   cat("CpG sites combined into test statistic:\n")
-  print(x$loci_combined)
+  print(x$indexes)
 }
